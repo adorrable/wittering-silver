@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PROSE Barbershop</title>
+  <meta name="description" content="PROSE Barbershop – world-class barbering with Africa-inspired luxury." />
+  <style>
+    :root{
+      --bg: #f7f4ef;
+      --text: #1f2a37;
+      --muted: #6b7280;
+      --card: #ffffff;
+      --shadow: 0 10px 25px rgba(0,0,0,.06);
+      --primary: #d17a11; /* warm gold/orange accent */
+      --green: #1e9c5f;  /* deep green accent */
+      --brown: #2b2b2b;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial; color:var(--text); background:var(--bg);} 
+    a{color:inherit;text-decoration:none}
+    /* Layout helpers */
+    .container{max-width:1100px;margin:0 auto;padding:0 20px}
+    .section{padding:72px 0}
+    .section + .section{border-top:1px solid #eee}
+
+    /* Nav */
+    .nav{position:sticky; top:0; z-index:50; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.04)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between; padding:14px 20px;}
+    .logo{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.5px}
+    .logo .mark{width:34px;height:34px;border-radius:9px;background:conic-gradient(from 180deg at 50% 50%, #f8c27a, #e07a3b, #d46a42, #f8c27a);box-shadow:0 2px 6px rgba(0,0,0,.15)}
+    .nav-links{display:flex;gap:20px;flex-wrap:wrap}
+    .nav-links button{background:transparent;border:0;padding:8px 12px;font-weight:600;color:#374151;border-radius:8px;cursor:default}
+
+    /* Hero */
+    .hero{position:relative; overflow:hidden;}
+    .hero-img{width:100%; height:520px; object-fit:cover; display:block; filter: saturate(1.05) contrast(1.02);}
+    .hero-overlay{position:absolute;inset:0; display:flex; align-items:center; justify-content:center; text-align:center; padding:0 20px}
+    .hero-content{background:rgba(255,255,255,.84); padding:28px 22px; border-radius:14px; max-width:780px; box-shadow:var(--shadow)}
+    .hero h1{font-size: clamp(28px, 5vw, 48px); margin:6px 0 12px; line-height:1.05}
+    .hero p{font-size: clamp(16px, 2.2vw, 18px); color:var(--muted); margin:0 0 18px}
+    .cta-row{display:flex; gap:14px; flex-wrap:wrap; justify-content:center}
+    .btn{appearance:none; border:0; padding:14px 20px; border-radius:10px; font-weight:700; cursor:default;}
+    .btn.primary{background:var(--green); color:white; box-shadow: inset 0 0 0 2px rgba(0,0,0,.04);} 
+    .btn.secondary{background:var(--primary); color:white;}
+    .ghost{background: #fff; color:var(--brown); border:1px solid #e5e7eb; cursor:default}
+
+    /* Features */
+    .features{display:grid; grid-template-columns: repeat(4, 1fr); gap:20px}
+    .card{background:var(--card); border-radius:14px; padding:18px; box-shadow:var(--shadow); min-height:150px; display:flex; flex-direction:column;}
+    .card h3{margin:6px 0 8px; font-size:18px}
+    .card p{margin:0; color:var(--muted); font-size:14px; line-height:1.4}
+    .icon{width:28px;height:28px; margin-bottom:8px; display:inline-block}
+
+    /* About / Story */
+    .story{display:grid; grid-template-columns:1.1fr 0.9fr; gap:28px; align-items:center}
+    .story-text{font-size:16px; line-height:1.6; color:#2b2b2b}
+    .story-image{width:100%; height:320px; object-fit:cover; border-radius:12px; box-shadow:var(--shadow)}
+
+    /* Testimonials */
+    .testimonials{display:grid; grid-template-columns:1fr 1fr; gap:20px}
+    .testi{background:#fff; padding:18px; border-radius:12px; box-shadow:var(--shadow)}
+    .stars{color:#f6b01a; margin-bottom:8px}
+
+    /* FAQ */
+    .faq{display:grid; grid-template-columns:1fr 1fr; gap:20px}
+    details{background:#fff; padding:14px 14px; border-radius:10px; box-shadow:var(--shadow)}
+    summary{cursor:default; font-weight:700}
+
+    /* CTA */
+    .cta{display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:16px; padding:26px;}
+
+    /* Floating WhatsApp button */
+    .float-whatsapp{position:fixed; bottom:24px; right:24px; width:66px; height:66px; border-radius:50%; border:0; background:#25D366; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 16px rgba(0,0,0,.15); cursor:default}
+    .float-whatsapp svg{width:30px;height:30px; fill:white}
+
+    /* Footer */
+    footer{border-top:1px solid #e5e7eb; padding:28px 0; color:var(--muted)}
+    .footer-grid{display:flex; flex-direction:column; gap:8px}
+    .footer-brand{font-weight:700}
+    .footer-link{ display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:8px; background:#fff; box-shadow:var(--shadow); cursor:default }
+    .section-title{font-size:20px; font-weight:800; margin-bottom:12px}
+
+    /* Toast for placeholders */
+    #wa-toast{ position:fixed; bottom:110px; left:50%; transform:translateX(-50%); background:#111; color:#fff; padding:12px 16px; border-radius:8px; opacity:0; pointer-events:none; transition:opacity .3s ease; z-index:60; font-size:14px; }
+    #wa-toast.show{ opacity:1; pointer-events:auto; }
+
+    /* Responsive tweaks */
+    @media (max-width: 1024px){
+      .features{grid-template-columns: repeat(2, 1fr);} 
+      .story{grid-template-columns:1fr 1fr}
+      .testimonials{grid-template-columns:1fr 1fr}
+      .faq{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 700px){
+      .hero-img{height:420px}
+      .story{grid-template-columns:1fr}
+      .features{grid-template-columns:1fr}
+      .testimonials{grid-template-columns:1fr}
+      .faq{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating toast container for placeholders -->
+  <div id="wa-toast" role="status" aria-live="polite"></div>
+
+  <!-- Navigation -->
+  <nav class="nav" aria-label="Main Navigation">
+    <div class="nav-inner container" style="justify-content:space-between;">
+      <div class="logo" aria-label="PROSE Logo">
+        <span class="mark" aria-hidden="true"></span>
+        <span>PROSE Barbershop</span>
+      </div>
+      <div class="nav-links" aria-label="Navigation links">
+        <button>Home</button>
+        <button>Services</button>
+        <button>About</button>
+        <button>Reviews</button>
+        <button>FAQ</button>
+        <button>Contact</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero section" aria-label="Hero"> 
+    <img class="hero-img" src="https://im.runware.ai/image/ws/2/ii/5c5b9b7f-b52b-4513-8eca-c816b6d865c4.jpg" alt="PROSE Barbershop interior, Africa-inspired luxury"/>
+    <div class="hero-overlay">
+      <div class="hero-content">
+        <h1>PROSE Barbershop</h1>
+        <p>World-class barbering in a luxury, Africa-inspired setting. Precision cuts, classic shaves, and an elevated grooming experience.</p>
+        <div class="cta-row" role="group" aria-label="Hero CTAs">
+          <button class="btn primary" aria-label="Book Appointment (placeholder)">Book Appointment</button>
+          <div class="btn ghost wa-action" aria-label="Chat via WhatsApp (placeholder)" data-platform-url="https://wa.me/" style="cursor:pointer">Chat via WhatsApp</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features / Services -->
+  <section class="section container" aria-label="Services">
+    <h2 class="section-title" style="text-align:center">Our Services</h2>
+    <div class="features" style="margin-top:6px;">
+      <div class="card">
+        <div class="icon" aria-label="Icon">✂️</div>
+        <h3>Precision Cuts</h3>
+        <p>Cutting-edge techniques delivered by master barbers with meticulous attention to detail.</p>
+      </div>
+      <div class="card">
+        <div class="icon" aria-label="Icon">🪒</div>
+        <h3>Classic Shaves</h3>
+        <p>Razor-sharp finishes and a luxurious lather for a timeless grooming ritual.</p>
+      </div>
+      <div class="card">
+        <div class="icon" aria-label="Icon">💈</div>
+        <h3>Style Consultations</h3>
+        <p>Personalized looks tailored to personality, hair type, and lifestyle.</p>
+      </div>
+      <div class="card">
+        <div class="icon" aria-label="Icon">🎩</div>
+        <h3>VIP Lounge</h3>
+        <p>Relaxed, premium seating with complimentary beverages and curated playlists.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- About / Story / Highlights -->
+  <section class="section container story" aria-label="About PROSE">
+    <div>
+      <h2 class="section-title">Our Story</h2>
+      <p class="story-text">
+        PROSE Barbershop was founded to fuse world-class barbering with an environment that honors culture, craftsmanship, and personal style. Every detail—from the chairs to the lighting and finishes—speaks to premium service and lasting relationships. Our team thrives on precision, consistency, and hospitality that makes every guest feel valued.
+      </p>
+    </div>
+    <img class="story-image" src="https://im.runware.ai/image/ws/2/ii/947a397e-74a7-44ed-a58d-71f1376a7fb9.jpg" alt="Barber in a stylish shop with African-inspired decor"/>
+  </section>
+
+  <!-- Testimonials / Reviews (4) -->
+  <section class="section container" aria-label="Reviews">
+    <h2 class="section-title" style="text-align:center">What Our Clients Say</h2>
+    <div class="testimonials" style="margin-top:10px;">
+      <div class="testi">
+        <div class="stars" aria-label="5 star rating">★★★★★</div>
+        <p><strong>Inioluwa M.</strong> - Truly world-class. The attention to detail and the calm, luxurious vibe makes PROSE my go-to for every cut.</p>
+      </div>
+      <div class="testi">
+        <div class="stars" aria-label="5 star rating">★★★★★</div>
+        <p><strong>Aminat K.</strong> - Exceptional service. The shading and finish are flawless, and the staff are incredibly welcoming.</p>
+      </div>
+      <div class="testi">
+        <div class="stars" aria-label="5 star rating">★★★★★</div>
+        <p><strong>Kwame D.</strong> - A masterful shave and a comfortable lounge. Worth every minute.</p>
+      </div>
+      <div class="testi">
+        <div class="stars" aria-label="5 star rating">★★★★★</div>
+        <p><strong>Grace N.</strong> - The styling tips and grooming routine recommendations are priceless.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section container" aria-label="FAQ">
+    <h2 class="section-title" style="text-align:center">Frequently Asked Questions</h2>
+    <div class="faq" style="margin-top:6px;">
+      <details open>
+        <summary>What safety measures are in place?</summary>
+        <p>We follow strict hygiene protocols, sanitize equipment between guests, and ensure comfortable spacing in every seating area.</p>
+      </details>
+      <details>
+        <summary>What should I expect on my first visit?</summary>
+        <p>We start with a consultation, then tailor the look to your hair type and lifestyle, followed by precision cutting and finishing touches.</p>
+      </details>
+      <details>
+        <summary>Do you offer services for all genders?</summary>
+        <p>Yes. Our team serves diverse clients with a range of grooming needs and styles.</p>
+      </details>
+      <details>
+        <summary>How long does a typical appointment take?</summary>
+        <p>A standard cut takes about 45 minutes; a full grooming session may be longer depending on requests.</p>
+      </details>
+      <details>
+        <summary>Do you accept walk-ins?</summary>
+        <p>Walk-ins are welcome, subject to availability. We recommend booking to secure your preferred time.</p>
+      </details>
+      <details>
+        <summary>What products do you use?</summary>
+        <p>We use high-quality, professional grooming products designed for lasting results and comfort.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- Call-to-Action (CTA) -->
+  <section class="section container" aria-label="CTA">
+    <div class="cta" style="flex-direction:column; text-align:center;">
+      <h2 class="section-title" style="margin:0 0 8px;">Ready for a world-class grooming experience?</h2>
+      <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+        <button class="btn primary" aria-label="Book Appointment (placeholder)">Order Now</button>
+        <div class="footer-link" role="note" aria-label="WhatsApp link (placeholder)" data-platform-url="https://wa.me/">WhatsApp Chat</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Floating Messaging Button (WhatsApp) -->
+  <button class="float-whatsapp" aria-label="Chat on WhatsApp (placeholder)" data-platform-url="https://wa.me/" title="WhatsApp Chat">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3h-17A2.5 2.5 0 001 5.5v13A2.5 2.5 0 003.5 21h8l-1-1-1 1h-8a3.5 3.5 0 01-3.5-3.5v-13A3.5 3.5 0 013.5 1h17A2.5 2.5 0 0123 3.5v0A2.5 2.5 0 0120.5 6H20" fill="white"/></svg>
+  </button>
+
+  <!-- Footer -->
+  <footer class="section" aria-label="Footer">
+    <div class="container" style="display:grid; grid-template-columns:1fr 1fr; align-items:start; gap:28px;">
+      <div class="footer-grid">
+        <div class="footer-brand">PROSE Barbershop</div>
+        <p style="margin:0; color:var(--muted);">Premium grooming, crafted with care and culture.</p>
+      </div>
+      <div class="footer-grid" style="justify-self:end;">
+        <div class="footer-link" role="note" data-platform-url="https://wa.me/">WhatsApp</div>
+        <div class="footer-link" role="note" data-platform-url="#">LINE</div>
+      </div>
+    </div>
+    <div class="container" style="margin-top:16px; text-align:center; color:var(--muted); font-size:14px;">
+      <span>Contact: +1 (000) 000-0000</span>
+      <span style="margin-left:12px;">|</span>
+      <span>Address: 123 PROSE Avenue, City, Country</span>
+      <p style="margin:8px 0 0;">made with ❤️ by adorrable.dev</p>
+    </div>
+  </footer>
+
+  <!-- Minimal no-op script to prevent navigation since placeholders are required to be non-functional -->
+  <script>
+    // Intentionally left minimal per requirements: no navigation actions on placeholders.
+
+    // Helper: show a toast message for placeholder actions
+    function showToast(message){
+      const toast = document.getElementById('wa-toast');
+      if(!toast) return;
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // Make all elements with data-platform-url clickable and show a placeholder toast
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('[data-platform-url]').forEach(el => {
+        // Ensure the element visually indicates interactivity
+        el.style.cursor = 'pointer';
+        el.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = el.dataset.platformUrl || el.dataset.platformurl || el.getAttribute('href') || '';
+          showToast('This is a placeholder. In production, this would open WhatsApp: ' + (target ? target : 'WhatsApp'));
+        });
+      });
+    });
+  </script>
+</body>
+</html>
